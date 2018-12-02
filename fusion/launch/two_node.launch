@@ -1,0 +1,16 @@
+<launch>
+  <node pkg="fusion" type="laser_public_1" name="laser_public_1" output="screen" />
+  <!--node pkg="tf" type="static_transform_publisher" name="fake_laser_frame_1" args="1 0 0 0 0 0 1 laser fake_laser_frame_1  50" /-->	
+  <node pkg="fusion" type="laser_public_2" name="laser_public_2" output="screen" />
+  <!--node pkg="tf" type="static_transform_publisher" name="fake_laser_frame_2" args="2 0 0 0 0 0 1 laser fake_laser_frame_2  50" /-->
+  <!--laser信号带id应该和传感器一致，不要用static transform -->
+
+
+  <!--下面是unifier使用方法，list列表用rosparam送入，不能用其他的 -->
+  <node pkg="cob_scan_unifier" type="scan_unifier_node" name="scan_unifier_node" output="screen">
+  <rosparam param="input_scans">["fake_scan_1","fake_scan_2"] </rosparam>
+  <param name="loop_rate" value="20.0" />
+  <remap from="scan_unified" to="scan" />
+  </node>
+</launch>
+
